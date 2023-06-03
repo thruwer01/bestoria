@@ -22,14 +22,4 @@ class Flat extends Model
         "rooms",
         "finishing"
     ];
-
-    public static $filters = [
-        "frame",
-        "section",
-        "floor",
-        "apart_number",
-        "squere",
-        "rooms",
-        "finishing"
-    ];
 }
