@@ -40,7 +40,7 @@ return new class extends Migration
         Schema::create('flats', function (Blueprint $table) {
             $table->id();
             $table->string('name', 256);
-            $table->integer('price');
+            $table->bigInteger('price');
             $table->string('picture_link', 500);
             $table->string('description', 5000);
             $table->integer('frame');
