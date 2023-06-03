@@ -6,17 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Верстка</title>
     <script src="script.js"></script>
-    {{-- <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="flats-main-block">
     <div class="search-block">
-        <div class="search-wrapper">
-            <input type="text" class="search_input" placeholder="Поиск">
-            <button type="submit" class="search-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="15px" height="15px"><path fill="#999" d="M 19 3 C 13.488281 3 9 7.488281 9 13 C 9 15.394531 9.839844 17.589844 11.25 19.3125 L 3.28125 27.28125 L 4.71875 28.71875 L 12.6875 20.75 C 14.410156 22.160156 16.605469 23 19 23 C 24.511719 23 29 18.511719 29 13 C 29 7.488281 24.511719 3 19 3 Z M 19 5 C 23.429688 5 27 8.570313 27 13 C 27 17.429688 23.429688 21 19 21 C 14.570313 21 11 17.429688 11 13 C 11 8.570313 14.570313 5 19 5 Z"/></svg>
-            </button>
-        </div>
         <div class="sort-wrapper">
             <select class="sort_select">
                 <option>Порядок: по умолчанию</option>
@@ -24,14 +18,13 @@
         </div>
     </div>
     <div class="wrapper">
-        <div class="filters">
+        <div class="filters" id="filters">
             {{-- комнатность, цена, площадь, корпус, этаж, секция, с отделкой и без --}}
             <div class="filter-block">
                 <div class="filter-name">
                     Комнаты
                 </div>
-                <div class="filter-content">
-                    @for ($a = 1; $a <= 4; $a++)
+                <div class="filter-content" id="filter-rooms">
                     <div class="filter-option">
                         <div class="filter-checkbox">
                             <input type="checkbox" class="filter-checkbox" id="checkbox{{$a}}">
@@ -40,34 +33,16 @@
                             <label for="checkbox{{$a}}">{{$a}}-комнатные</label>
                         </div>
                     </div>
-                    @endfor
                 </div>
             </div>
         </div>
-        <div class="flats">
-            @for ($i = 0; $i < 20; $i++)
-                <div class="flat-block">
-                    <a href="#" style="text-decoration: none;">
-                        <img src="https://static.tildacdn.com/stor6134-6261-4531-b633-383039656435/51412289.svg">
-                        <div class="flat-main-info">
-                            <div class="flat-name">
-                                4-комнатная квартира, 124.8 м²
-                            </div>
-                            <div class="flat-price">
-                                {{ number_format("55568107", 0, " ", " ")}} р.
-                            </div>
-                            <div class="flat-info">
-                                <span>38 этаж</span>
-                                <span>126.2 м²</span>
-                                <span>445 746 ₽/м²</span>
-                            </div>
-                            <div class="flat-button">
-                                <button href="">Подробнее</button>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            @endfor
+        <div class="flats" id="flats">
+        </div>
+    </div>
+    <div class="page-numbers-wrapper">
+        <div class="page-numbers">
+            <ul id="pageNumbers">
+            </ul>
         </div>
     </div>
 </div>
@@ -123,6 +98,10 @@
         margin-bottom: 20px;
         display: flex;
         justify-content: flex-end;
+        position: sticky;
+        top: 0;
+        background-color:#E8E9E8;
+        padding: 20px;
     }
     .search-wrapper {
         position: relative;
@@ -154,6 +133,9 @@
         height: 100%;
         padding: 30px 0 30px 30px;
         margin-right: 30px;
+        position: sticky;
+        top: 20%;
+        height: 500px;
     }
     .flats {
         width: 100%;
@@ -165,6 +147,11 @@
         height: auto;
         margin-left: 20px;
         margin-bottom: 30px;
+        max-width: 31%;
+    }
+    .flat-block img {
+        max-height: 280px;
+        min-height: 280px;
     }
     .flat-name {
         color: #26262b;
@@ -261,6 +248,40 @@
     }
     .filter-label label, .filter-checkbox input{
         cursor: pointer;
+    }
+    .page-numbers-wrapper {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .page-numbers {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .page-numbers ul {
+        display: flex;
+        max-width: 30%;
+        list-style-type: none;
+    }
+    .page-numbers ul li {
+        padding: 4px 12px;
+        border-radius: 5px;
+        opacity: .4;
+        cursor: pointer;
+    }
+    .page-numbers ul li:hover {
+        color: #333 !important;
+        opacity: 1;
+        background-color: #DCDCDC;
+    }
+    .page-numbers ul li.disable:hover {
+        background-color: #E8E9E8 !important;
+        opacity: .4;
+    }
+    .page-numbers ul li.active {
+        color: #333;
+        border: 1px solid #333;
+        opacity: 1;
     }
 </style>
 
