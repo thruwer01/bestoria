@@ -6,14 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Верстка</title>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 </head>
 <body>
 <div class="flats-main-block">
     <div class="search-block">
         <div class="sort-wrapper">
-            <select class="sort_select">
-                <option>Порядок: по умолчанию</option>
+            <select class="sort_select" id="sortSelectel">
+                <option value="">Порядок: по умолчанию</option>
+                <option value="+price">Цена: по возрастанию</option>
+                <option value="-price">Цена: по убыванию</option>
+                <option value="+squere">Площадь: по возрастанию</option>
+                <option value="-squere">Площадь: по убыванию</option>
             </select>
         </div>
     </div>
@@ -25,15 +31,71 @@
                     Комнаты
                 </div>
                 <div class="filter-content" id="filter-rooms">
-                    <div class="filter-option">
-                        <div class="filter-checkbox">
-                            <input type="checkbox" class="filter-checkbox" id="checkbox{{$a}}">
-                        </div>
-                        <div class="filter-label unselectable">
-                            <label for="checkbox{{$a}}">{{$a}}-комнатные</label>
-                        </div>
+                </div>
+            </div>
+            <div class="filter-block">
+                <div class="filter-name">
+                    Цена
+                </div>
+                <div class="filter-content" id="filter-price">
+                    <input type="text" class="price-range-slider">
+                    <div class="range-inputs" id="priceInputs">
+                        <input type="text" data-update="from" id="priceMin">
+                        <span>—</span>
+                        <input type="text" data-update="to" id="priceMax">
                     </div>
                 </div>
+            </div>
+            <div class="filter-block">
+                <div class="filter-name">
+                    Площадь
+                </div>
+                <div class="filter-content" id="filter-squere">
+                    <input type="text" class="squere-range-slider">
+                    <div class="range-inputs" id="squereInputs">
+                        <input type="text" data-update="from" id="squereMin">
+                        <span>—</span>
+                        <input type="text" data-update="to" id="squereMax">
+                    </div>
+                </div>
+            </div>
+            <div class="filter-block">
+                <div class="filter-name">
+                    Этаж
+                </div>
+                <div class="filter-content" id="filter-floor">
+                    <input type="text" class="floor-range-slider">
+                    <div class="range-inputs" id="floorInputs">
+                        <input type="text" data-update="from" id="floorMin">
+                        <span>—</span>
+                        <input type="text" data-update="to" id="floorMax">
+                    </div>
+                </div>
+            </div>
+            <div class="filter-block">
+                <div class="filter-name">
+                    Корпус
+                </div>
+                <div class="filter-content" id="filter-frame">
+                </div>
+            </div>
+            {{-- <div class="filter-block">
+                <div class="filter-name">
+                    Секция
+                </div>
+                <div class="filter-content" id="filter-section">
+                </div>
+            </div> --}}
+            <div class="filter-block">
+                <div class="filter-name">
+                    Отделка
+                </div>
+                <div class="filter-content" id="filter-finishing">
+                </div>
+            </div>
+            <div class="filters-button" id="filterBtns">
+                <button class="show-filter" id="showFilterBtn">Показать</button>
+                <a href="#" id="clearFilter">&#10006; сбросить фильтр</a>
             </div>
         </div>
         <div class="flats" id="flats">
@@ -131,11 +193,12 @@
         width: 20%;
         background-color: #E0E0E0;
         height: 100%;
-        padding: 30px 0 30px 30px;
+        padding: 30px 30px 30px 30px;
         margin-right: 30px;
         position: sticky;
-        top: 20%;
+        top: 10%;
         height: 500px;
+        overflow-y: scroll;
     }
     .flats {
         width: 100%;
@@ -146,7 +209,7 @@
         flex-grow: 1;
         height: auto;
         margin-left: 20px;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
         max-width: 31%;
     }
     .flat-block img {
@@ -233,6 +296,7 @@
     /* FILTERS */
     .filter-block {
         font-size: 12px;
+        margin-bottom: 35px;
     }
     .filter-block .filter-name {
         color: #770219;
@@ -282,6 +346,55 @@
         color: #333;
         border: 1px solid #333;
         opacity: 1;
+    }
+    /* RANGE SLIDER */
+    .irs-bar {
+        background-color: #770219!important;
+    }
+    .irs--round .irs-bar {
+        top: 34px !important;
+    }
+    .irs--round .irs-handle {
+        border: 2px solid #C1C1C1!important;
+        width: 20px;
+        height: 20px;
+        box-shadow: none;
+    }
+    .range-inputs {
+        margin-top: 3%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .range-inputs input {
+        max-width: 44%;
+        outline: none;
+        border: 1px #ddd solid;
+        background-color: #f8f8f8;
+        box-sizing: border-box;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+    /* Filter BTN */
+    .filters-button {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+    .filters-button a{
+        text-decoration: none;
+        font-size: 12px;
+        padding: 5px;
+        color: #770219;
+    }
+    .filters-button button {
+        outline: none;
+        background-color: #770219;
+        border: 1px solid #770219;
+        color: white;
+        cursor: pointer;
+        padding: 5px 15px;
     }
 </style>
 
