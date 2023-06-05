@@ -14,8 +14,8 @@ use App\Http\Controllers\FlatController;
 |
 */
 
-Route::get('/', [FlatController::class, 'createFlats']);
+Route::get('/cron/update-flats', [FlatController::class, 'createFlats']);
 
-Route::get('/html', function () {
-    return view('project');
-});
+// Route::get('/html', function () {
+//     return view('project');
+// });
